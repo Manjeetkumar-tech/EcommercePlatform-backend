@@ -40,9 +40,6 @@ public class UserController {
         }
     }
 
-    @PostMapping("/logout")
-    public ResponseEntity<ApiResponse> logoutUser() {
-        // You can perform any necessary cleanup here, if needed
-        return ResponseEntity.ok(new ApiResponse("User logged out successfully", true));
-    }
+    // The /api/users/logout endpoint has been removed as Spring Security now handles
+    // logout at /api/logout (configured in SecurityConfig.java).
 }
