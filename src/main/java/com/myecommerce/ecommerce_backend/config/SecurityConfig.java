@@ -31,6 +31,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PUT, "/api/products/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/products/**").hasRole("ADMIN")
                         .requestMatchers("/api/users/register", "/api/users/login").permitAll() // Keep user registration/login public
+                        .requestMatchers("/api/cart/**").authenticated() // New rule for cart
                         .anyRequest().authenticated() // All other requests need authentication
                 )
                 .httpBasic(Customizer.withDefaults())

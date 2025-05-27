@@ -29,4 +29,9 @@ public class UserService {
         }
         return Optional.empty();
     }
+
+    // Method to find user by email, useful for loading User entity from UserDetails
+    public Optional<User> findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
 }

@@ -2,6 +2,7 @@ package com.myecommerce.ecommerce_backend.models;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import com.myecommerce.ecommerce_backend.models.Cart; // Add this import
 
 @Entity
 @Table(name = "users")
@@ -22,6 +23,9 @@ public class User {
 
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private Cart cart;
 
     // Getters and setters
     public Long getId() {
@@ -62,5 +66,17 @@ public class User {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public Cart getCart() {
+        return cart;
+    }
+
+    public void setCart(Cart cart) {
+        this.cart = cart;
+        // Optional: maintain bidirectional consistency if the cart parameter is not null
+        // if (cart != null) {
+        //     cart.setUser(this);
+        // }
     }
 }
