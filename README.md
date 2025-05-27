@@ -118,6 +118,33 @@ The application will typically start on `http://localhost:8080`.
 *   Database connection properties are in `src/main/resources/application.properties`.
 *   JPA's `ddl-auto` is set to `update`, meaning Hibernate will attempt to update the schema based on entity definitions. For production, consider using database migration tools like Flyway or Liquibase.
 
+## Testing Strategy
+
+The project includes the following types of tests:
+
+### 1. Service Layer Unit Tests
+*   **Location:** `src/test/java/com/myecommerce/ecommerce_backend/services/`
+*   **Description:** These tests focus on the business logic within the service classes (e.g., `ProductService`).
+*   **Technology:** JUnit 5 and Mockito are used to mock repository dependencies and verify service method behavior in isolation.
+*   **Example:** `ProductServiceTest.java` covers various scenarios for product creation, retrieval, updates, and deletion.
+
+### 2. Controller Layer Unit Tests
+*   **Location:** `src/test/java/com/myecommerce/ecommerce_backend/controllers/`
+*   **Description:** These tests verify the behavior of the Spring MVC controllers, ensuring correct handling of web requests, request/response serialization, parameter binding, and interaction with mocked service layers.
+*   **Technology:**
+    *   Spring MVC Test Framework (`MockMvc`)
+    *   `@WebMvcTest` annotation (isolates the web layer)
+    *   Mockito (`@MockBean` for service dependencies)
+    *   `spring-security-test` for testing secured endpoints (CSRF token handling, `@WithMockUser`).
+*   **Examples:**
+    *   `ProductControllerTest.java`: Tests product API endpoints.
+    *   `UserControllerTest.java`: Tests user registration and login API endpoints.
+*   **Key Aspects Tested:** Request mappings, status codes, JSON request/response processing, basic validation, and security integration at the controller level.
+
+### Future Enhancements
+*   **Integration Tests:** To test the full request lifecycle from controller to database.
+*   **More Comprehensive Validation Tests:** Detailed tests for various input validation scenarios.
+
 ## Running Tests
 To run the unit tests:
 ```bash
