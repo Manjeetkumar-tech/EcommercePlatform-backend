@@ -1,6 +1,7 @@
 package com.myecommerce.ecommerce_backend.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.myecommerce.ecommerce_backend.config.SecurityConfig;
 import com.myecommerce.ecommerce_backend.dto.ApiResponse;
 import com.myecommerce.ecommerce_backend.dto.LoginRequest;
 import com.myecommerce.ecommerce_backend.models.User;
@@ -10,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -23,6 +25,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(UserController.class)
+@Import(SecurityConfig.class)
 public class UserControllerTest {
 
     @Autowired
@@ -86,7 +89,7 @@ public class UserControllerTest {
                         .content(objectMapper.writeValueAsString(loginRequest)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value(true))
-                .andExpect(jsonPath("$.data.username").value(user.getUsername()));
+                .andExpect(jsonPath("$.user.username").value(user.getUsername()));
     }
 
     @Test
