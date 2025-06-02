@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:14-alpine
+    container_name: my_postgres_container # Added a specific container name
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password # Note: For development only. Use secrets for production.
+      POSTGRES_DB: db1
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5433:5432" # Exposing on host port 5433 to avoid conflict with local PostgreSQL
+    healthcheck: # Added healthcheck for postgres
+      test: ["CMD-SHELL", "pg_isready -U admin -d db1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: my_backend_container # Added a specific container name
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/db1
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: password
+      SPRING_JPA_HIBERNATE_DDL_AUTO: validate
+      SPRING_FLYWAY_LOCATIONS: classpath:db/migration
+      SERVER_PORT: 8080
+      # Optional: Add this if you want to wait for postgres to be healthy
+      # SPRING_ dépendencies_POSTGRES_HEALTHCHECK_ENABLED: true
+    depends_on:
+      postgres: # Specify dependency with health condition
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+
+volumes:
+  pgdata: # Defines the named volume

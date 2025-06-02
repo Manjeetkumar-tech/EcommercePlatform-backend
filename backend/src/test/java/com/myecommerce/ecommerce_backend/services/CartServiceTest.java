@@ -55,7 +55,7 @@ public class CartServiceTest {
         user.setPassword("password");
 
 
-        product1 = new Product("Test Product 1", "Description for product 1", new BigDecimal("10.00"), "Category1", 100);
+        product1 = new Product("Test Product 1", "Description for product 1", new BigDecimal("10.00"), "Category1", 100, null);
         product1.setId(1L);
         
         cart = new Cart(user);
@@ -243,7 +243,7 @@ public class CartServiceTest {
     void clearCart_shouldRemoveAllItems() {
         CartItem item1 = new CartItem(cart, product1, 1);
         item1.setId(1L);
-        Product product2 = new Product("Test Product 2", "Desc 2", BigDecimal.ONE, "Cat2", 10);
+        Product product2 = new Product("Test Product 2", "Desc 2", BigDecimal.ONE, "Cat2", 10, null);
         product2.setId(2L);
         CartItem item2 = new CartItem(cart, product2, 2);
         item2.setId(2L);

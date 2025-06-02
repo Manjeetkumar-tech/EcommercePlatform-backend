@@ -47,10 +47,10 @@ public class ProductControllerTest {
 
     @BeforeEach
     void setUp() {
-        product1 = new Product("Laptop Pro", "High-end laptop", new BigDecimal("1200.00"), "Electronics", 10);
+        product1 = new Product("Laptop Pro", "High-end laptop", new BigDecimal("1200.00"), "Electronics", 10, null);
         product1.setId(1L);
 
-        product2 = new Product("Coffee Mug", "Ceramic coffee mug", new BigDecimal("15.00"), "Kitchenware", 50);
+        product2 = new Product("Coffee Mug", "Ceramic coffee mug", new BigDecimal("15.00"), "Kitchenware", 50, null);
         product2.setId(2L);
     }
 
@@ -73,7 +73,7 @@ public class ProductControllerTest {
     @Test
     @WithMockUser(username = "admin", roles = {"ADMIN"})
     void addProduct_whenInvalidInput_shouldReturnBadRequest() throws Exception {
-        Product invalidProduct = new Product("", "Desc", BigDecimal.TEN, "Cat", 1); // Empty name
+        Product invalidProduct = new Product("", "Desc", BigDecimal.TEN, "Cat", 1, null); // Empty name
 
         // No need to mock productService.addProduct for this, as validation should fail before.
         // However, if validation is not triggered, it might call the service.
@@ -122,7 +122,7 @@ public class ProductControllerTest {
     @Test
     @WithMockUser(username = "admin", roles = {"ADMIN"})
     void updateProduct_whenProductExistsAndValidInput_shouldReturnUpdatedProduct() throws Exception {
-        Product updatedDetails = new Product("Laptop Pro X", "Updated laptop", new BigDecimal("1300.00"), "Electronics", 8);
+        Product updatedDetails = new Product("Laptop Pro X", "Updated laptop", new BigDecimal("1300.00"), "Electronics", 8, null);
         updatedDetails.setId(1L); // Make sure ID matches for update
 
         given(productService.updateProduct(eq(1L), any(Product.class))).willReturn(updatedDetails);
@@ -139,7 +139,7 @@ public class ProductControllerTest {
     @Test
     @WithMockUser(username = "admin", roles = {"ADMIN"})
     void updateProduct_whenProductDoesNotExist_shouldReturnNotFound() throws Exception {
-        Product updatedDetails = new Product("Non Existent", "Desc", BigDecimal.TEN, "Cat", 1);
+        Product updatedDetails = new Product("Non Existent", "Desc", BigDecimal.TEN, "Cat", 1, null);
         given(productService.updateProduct(eq(3L), any(Product.class))).willThrow(new RuntimeException("Product not found"));
 
 

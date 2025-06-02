@@ -32,10 +32,10 @@ public class ProductServiceTest {
 
     @BeforeEach
     void setUp() {
-        product1 = new Product("Laptop Pro", "High-end laptop", new BigDecimal("1200.00"), "Electronics", 10);
+        product1 = new Product("Laptop Pro", "High-end laptop", new BigDecimal("1200.00"), "Electronics", 10, null);
         product1.setId(1L);
 
-        product2 = new Product("Coffee Mug", "Ceramic coffee mug", new BigDecimal("15.00"), "Kitchenware", 50);
+        product2 = new Product("Coffee Mug", "Ceramic coffee mug", new BigDecimal("15.00"), "Kitchenware", 50, null);
         product2.setId(2L);
     }
 
@@ -84,7 +84,7 @@ public class ProductServiceTest {
 
     @Test
     void updateProduct_whenProductExists_shouldUpdateAndReturnProduct() {
-        Product productDetails = new Product("Laptop Pro X", "Even higher-end laptop", new BigDecimal("1500.00"), "Electronics", 5);
+        Product productDetails = new Product("Laptop Pro X", "Even higher-end laptop", new BigDecimal("1500.00"), "Electronics", 5, null);
         
         when(productRepository.findById(1L)).thenReturn(Optional.of(product1));
         when(productRepository.save(any(Product.class))).thenAnswer(invocation -> invocation.getArgument(0)); // Return the saved entity
@@ -101,7 +101,7 @@ public class ProductServiceTest {
 
     @Test
     void updateProduct_whenProductDoesNotExist_shouldThrowRuntimeException() {
-        Product productDetails = new Product("Laptop Pro X", "Even higher-end laptop", new BigDecimal("1500.00"), "Electronics", 5);
+        Product productDetails = new Product("Laptop Pro X", "Even higher-end laptop", new BigDecimal("1500.00"), "Electronics", 5, null);
         when(productRepository.findById(3L)).thenReturn(Optional.empty());
 
         Exception exception = assertThrows(RuntimeException.class, () -> {

@@ -73,6 +73,49 @@ java -jar target/ecommerce-backend-0.0.1-SNAPSHOT.jar
 ```
 The application will typically start on `http://localhost:8080`.
 
+## Running with Docker Compose
+
+This is an alternative way to run the backend application along with its PostgreSQL database using Docker Compose. This method simplifies setup as it manages the database service for you.
+
+### Prerequisites
+*   **Docker** installed (e.g., Docker Desktop).
+*   **Docker Compose** installed (usually included with Docker Desktop).
+
+### 1. Navigate to the Backend Directory
+Ensure you are in the `backend` directory where the `docker-compose.yml` file is located.
+
+### 2. Start the Application
+To build the Docker images (if not already built or if code changes were made) and start the services in detached mode (running in the background):
+```bash
+docker-compose up --build -d
+```
+If you prefer to see the logs directly in your terminal (foreground mode):
+```bash
+docker-compose up --build
+```
+The backend Spring Boot application will start, and Flyway will automatically apply database migrations.
+
+### 3. Accessing the Application
+*   The backend application will be available at `http://localhost:8080`.
+*   The PostgreSQL database (managed by Docker Compose) will be accessible on port `5433` of your host machine. This can be useful for connecting with external database tools (e.g., DBeaver, pgAdmin) using connection details:
+    *   Host: `localhost`
+    *   Port: `5433`
+    *   Database: `db1`
+    *   User: `admin`
+    *   Password: `password` (as defined in `docker-compose.yml`)
+
+### 4. Stopping the Application
+To stop the services and remove the containers:
+```bash
+docker-compose down
+```
+
+### Database Persistence
+PostgreSQL data is persisted in a Docker volume named `pgdata`. This means your data will remain even if you stop and restart the services, unless the volume is explicitly removed (e.g., with `docker-compose down -v`).
+
+### Note on `application.properties`
+When running with Docker Compose, the database connection properties (`spring.datasource.url`, `spring.datasource.username`, `spring.datasource.password`) are provided by environment variables defined in the `docker-compose.yml` file. The corresponding properties in `src/main/resources/application.properties` should ideally be commented out or removed to avoid conflicts and ensure the Docker Compose environment variables take precedence.
+
 ## API Endpoints Overview
 
 ### User Authentication

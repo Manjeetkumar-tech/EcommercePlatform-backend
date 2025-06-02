@@ -23,7 +23,7 @@ public class Product {
 
     @NotBlank(message = "Product description cannot be blank")
     @Lob // For potentially long descriptions
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String description;
 
     @NotNull(message = "Product price cannot be null")
@@ -38,16 +38,20 @@ public class Product {
     @Column(nullable = false)
     private Integer inventory;
 
+    @Column(name = "short_description")
+    private String shortDescription;
+
     // Constructors
     public Product() {
     }
 
-    public Product(String name, String description, BigDecimal price, String categories, Integer inventory) {
+    public Product(String name, String description, BigDecimal price, String categories, Integer inventory, String shortDescription) {
         this.name = name;
         this.description = description;
         this.price = price;
         this.categories = categories;
         this.inventory = inventory;
+        this.shortDescription = shortDescription;
     }
 
     // Getters and Setters
@@ -99,6 +103,14 @@ public class Product {
         this.inventory = inventory;
     }
 
+    public String getShortDescription() {
+        return shortDescription;
+    }
+
+    public void setShortDescription(String shortDescription) {
+        this.shortDescription = shortDescription;
+    }
+
     // toString() method (optional, but good for logging)
     @Override
     public String toString() {
@@ -109,6 +121,7 @@ public class Product {
                 ", price=" + price +
                 ", categories='" + categories + '\'' +
                 ", inventory=" + inventory +
+                ", shortDescription='" + shortDescription + '\'' +
                 '}';
     }
 }
